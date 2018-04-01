@@ -2,63 +2,12 @@
 openapi: "3.0.0"
 info:
   version: "v1"
-  title: "RedactApplication"
+  title: "Redaction"
 servers:
   - url: https://api.nexmo.com
 security:
   - basicAuth: []
 paths:
-  /v1/redact/identity:
-    post:
-      summary: Redact all records for an identity
-      description: ""
-      x-group: identity
-      requestBody:
-        description: An identity redaction
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RedactIdentity'
-      responses:
-        '204':
-          description: "Success"
-        '400':
-          description: "Incorrect product specified"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorUser'
-        '401':
-          description: "Authentication failure"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorUser'
-        '403':
-          description: "Authorisation denied"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorUser'
-        '404':
-          description: "No such record"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorUser'
-        '500':
-          description: "Internal server error"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternal'
-        '503':
-          description: "Service unavailable"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternal'
   /v1/redact/transaction:
     post:
       summary: Redact a specific message
@@ -98,18 +47,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorUser'
-        '500':
-          description: "Internal server error"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternal'
-        '503':
-          description: "Service unavailable"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorInternal'
 x-groups:
   transaction:
     name: Transaction
@@ -137,12 +74,12 @@ components:
        type: string
        required: true
        description: Generic error message
-       example: You do not have enough credit.
+       example: Invalid transaction ID.
       detail:
        type: string
        required: false
        description: Additional information about the error
-       example: Your current balance is 30, but that costs 50.
+       example: The transaction ID 'EXAMPLE-123-TRANSACTION-ID' could not be found.
       instance:
        type: string
        required: true
@@ -166,16 +103,6 @@ components:
        required: true
        description: Internal Trace ID
        example: ABC123
-   RedactIdentity:
-     type: object
-     properties:
-      id:
-       type: string
-       required: true
-       description: >
-         The identity to redact. This could be a phone number or an external
-         provider ID
-       example: 14155550100
    RedactTransaction:
      type: object
      properties:
