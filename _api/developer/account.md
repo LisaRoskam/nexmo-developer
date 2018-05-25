@@ -50,7 +50,7 @@ Key | Value
 
 ### Settings
 
-Modify settings for your account including callback URLs and your API secret.
+Modify callback URLs for your account.
 
 #### Request
 
